@@ -1,56 +1,84 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { memo } from 'react'
+import NumberFormat from 'react-number-format'
 
 import { IInput } from '../../interfaces/inputs'
 import { getIcon } from '../../utils/getIconInput'
 
-const Inpute = styled.input.attrs(({ type, size }: any) => ({
-  type: type || 'text',
-  size: size || '1em',
-}))`
-  border: none;
-  width: 225px;
-  height: 20px;
-  padding: 10px;
-  font-size: 1em;
-  border-radius: 5px;
+import {
+  IconContainer,
+  InputComponent,
+  InputContainer,
+} from './styledComponents'
 
-  &:focus {
-    outline: none;
+const getInput = (props: IInput) => {
+  switch (props.icon) {
+    case 'date':
+      return (
+        <NumberFormat
+          id='date-form'
+          format='##/##/####'
+          placeholder='DD/MM/YYYY'
+          customInput={InputComponent}
+          value={props.value ? props.value : ''}
+          onValueChange={
+            ({ formattedValue }: any) => props.onChange({
+              target: {
+                value: formattedValue,
+                name: props.name || 'date',
+              },
+            })
+          }
+        />
+      )
+    case 'phone':
+      return (
+        <NumberFormat
+          id='date-form'
+          placeholder='Celular'
+          format='+57 (###) ###-####'
+          customInput={InputComponent}
+          value={props.value ? props.value : ''}
+          onValueChange={
+            ({ formattedValue }: any) => props.onChange({
+              target: {
+                value: formattedValue,
+                name: props.name || 'date',
+              },
+            })
+          }
+        />
+      )
+    case 'number':
+      return (
+        <NumberFormat
+          id='date-form'
+          placeholder='Numero'
+          customInput={InputComponent}
+          value={props.value ? props.value : ''}
+          onValueChange={
+            ({ floatValue }: any) => props.onChange({
+              target: {
+                value: floatValue,
+                name: props.name || 'date',
+              },
+            })
+          }
+        />
+      )
+    default:
+      return (<InputComponent {...props} />)
   }
-`
+}
 
-const InputContainer = styled.div`
-  width: 275px;
-  height: 40px;
-  color: grey;
-  display: flex;
-  border-radius: 5px;
-  align-items: center;
-  justify-content: center;
-  background-color: #f1f1f1;
-  border: 1px solid lightGrey;
-  transition: border .5s ease-in;
-
-  &:focus-within {
-    border: 1px solid black;
-  }
-  &:hover {
-    border: 1px solid black;
-  }
-`
-
-const IconContainer = styled.div`
-  width: 50px;
-  `
-
-export default function Input(props: IInput) {
+function Input(props: IInput) {
   return (
-    <InputContainer>
+    <InputContainer {...props}>
       <IconContainer>
         {getIcon[props.icon]}
       </IconContainer>
-      <Inpute {...props} />
+      {getInput(props)}
     </InputContainer>
   )
 }
+
+export default memo(Input)
