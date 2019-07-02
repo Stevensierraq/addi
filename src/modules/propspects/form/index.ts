@@ -3,7 +3,9 @@ import { withFormik } from 'formik'
 import UiForm from './ui'
 import validationSchema from './validation'
 
-const PropspectForm = withFormik({
+import { addPropspect } from '../../../store/actions'
+
+const PropspectForm = withFormik<any, any>({
   displayName: 'PropspectForm',
 
   enableReinitialize: true,
@@ -20,16 +22,15 @@ const PropspectForm = withFormik({
     dniNumber: '',
   }),
 
-  // tslint:disable-next-line:no-console
-  handleSubmit: (values, { setSubmitting, resetForm }) => {
+  handleSubmit: (values, { setSubmitting, resetForm, props }) => {
     setSubmitting(true)
+
     setTimeout(() => {
-      // tslint:disable-next-line:no-console
-      console.log(values)
+      props.dispatch(addPropspect(values))
       setSubmitting(false)
       resetForm()
 
-    }, 3000)
+    }, 2000)
   },
 
 })(UiForm)

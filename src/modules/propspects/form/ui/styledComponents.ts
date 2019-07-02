@@ -33,6 +33,7 @@ export const FormContainer = styled.div`
   border-radius: 10px;
   padding: 15px;
   max-width: 600px;
+  margin-top: 40px;
 `
 
 export const FormTitle = styled.p`

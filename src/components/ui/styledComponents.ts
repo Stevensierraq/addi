@@ -93,3 +93,42 @@ export const ButtonContainer = styled.div`
   width: ${({ loading }: IButton) => loading ? '120px' : '100px'};
   background: ${({ primary }: IButton) => primary ? 'black' : 'white'};
 `
+
+export const ModalContainer = styled.div`
+  display: ${({ visible }: any) => visible ? 'block' : 'none'}
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+`
+export const ModalContent = styled.div`
+  width: 800px;
+  position: absolute;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  height: 300px;
+  padding: 20px;
+  margin: 200px;
+  border: 1px solid #888;
+  background-color: white;
+`
+
+export const ModalClose = styled.div`
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  ursor: pointer;
+
+  &:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+`
