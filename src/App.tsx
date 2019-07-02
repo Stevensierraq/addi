@@ -1,17 +1,19 @@
 import React from 'react'
+import { Provider } from 'react-redux'
 
 import Header from './components/commons/header'
-
-import PropspectForm from './modules/propspects/form'
+import PropspectsLayout from './layout/propspectsLayout'
+import store from './store'
 
 import './App.css'
 
 const App: React.FC = () => {
   return (
     <div className='App'>
-      <Header />
-      start app
-      <PropspectForm />
+      <Provider store={store}>
+        <Header />
+        <PropspectsLayout />
+      </Provider>
     </div>
   )
 }
