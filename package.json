@@ -10,6 +10,7 @@
     "@types/react-icons": "^3.0.0",
     "@types/react-redux": "^7.1.1",
     "formik": "^1.5.7",
+    "npm-run-all": "^4.1.5",
     "ramda": "^0.26.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -19,6 +20,7 @@
     "react-scripts": "3.0.1",
     "react-spinners": "^0.5.4",
     "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
     "styled-components": "^4.3.2",
     "typescript": "3.5.2",
     "yup": "^0.27.0"
@@ -28,7 +30,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "tslint --project '.'"
+    "lint": "tslint --project '.'",
+    "start-all": "npm-run-all -p start-mockapi start",
+    "start-mockapi": "json-server mockServer/index.js --port 3600 --routes mockServer/routes.json -m mockServer/middlewares/datacredito.js mockServer/middlewares/antecedentes.js mockServer/middlewares/addi-api.js",
+    "local-db": "json-server mockServer/db.json  --watch --port 3600 --no-cors"
   },
   "eslintConfig": {
     "extends": "react-app"

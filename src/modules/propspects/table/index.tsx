@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import Modal from '../../../components/ui/modal'
 import { IPropspect, IReducer } from '../../../store/interfaces'
 import Detail from './detail'
 import { TableContainer, Th, Tr } from './styledComponents'
+
+import { isEmpty } from 'ramda'
+
+import { GET, POST } from '../../../utils/request'
 
 import {
   FaEye,
@@ -20,8 +24,9 @@ const defaultPropspect = {
   dniExpiry: '',
 }
 
-export default function PropspectsTable() {
+function PropspectsTable() {
   const [visible, setVisible] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const [detail, setDetail] = useState<IPropspect>(defaultPropspect)
   const propspects = useSelector((state: IReducer) => state.propspects)
 
@@ -31,6 +36,29 @@ export default function PropspectsTable() {
     setVisible(true)
     setDetail(propspect)
   }
+
+  const validateScore = async (validations: any) => {
+    const [antecendentes, datacredito] = validations
+
+    const propspectExist: boolean = datacredito.exist
+    let antecedentesErrors: string[] = []
+
+    if (antecendentes.causes) { antecedentesErrors = antecendentes.causes }
+
+    if (isEmpty(antecedentesErrors) && propspectExist) {
+      const getScore = await GET('http://localhost:3600/addi-api')
+    }
+
+    setLoading(false)
+  }
+
+  const validatePropspect = useCallback(async (propspect: IPropspect) => {
+    setLoading(true)
+    Promise.all([
+      POST('http://localhost:3600/antecedentes', propspect),
+      POST('http://localhost:3600/datacredito', propspect),
+    ]).then(validateScore)
+  }, [])
 
   return (
     <TableContainer>
@@ -70,8 +98,12 @@ export default function PropspectsTable() {
       >
         <Detail
           propspect={detail}
+          loading={loading}
+          validatePropspect={validatePropspect}
         />
       </Modal>
     </TableContainer>
   )
 }
+
+export default memo(PropspectsTable)

@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { memo } from 'react'
 
+import { Button } from '../../../components/ui/button'
 import { IPropspect } from '../../../store/interfaces'
+import { DetailButton, DetailContainer, DetailItem } from './styledComponents'
 
-import { DetailContainer, DetailItem } from './styledComponents'
-
-export default function Detail(props: { propspect: IPropspect }) {
+function Detail(props: { propspect: IPropspect, validatePropspect: any, loading: boolean }) {
   const {
     name,
     dniExpiry,
@@ -14,6 +14,12 @@ export default function Detail(props: { propspect: IPropspect }) {
     address,
     email,
   } = props.propspect
+
+  const handleClick = (e: any) => {
+    e.preventDefault()
+    e.stopPropagation()
+    props.validatePropspect(props.propspect)
+  }
 
   return (
     <DetailContainer>
@@ -42,6 +48,13 @@ export default function Detail(props: { propspect: IPropspect }) {
         <strong>Dirección</strong>
         <span>{address}</span>
       </DetailItem>
+      <DetailButton>
+        <Button primary loading={props.loading} onClick={handleClick}>
+          VALIDAR
+       </Button>
+      </DetailButton>
     </DetailContainer>
   )
 }
+
+export default memo(Detail)
