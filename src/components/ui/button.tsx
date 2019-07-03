@@ -8,7 +8,7 @@ export function Button(props: any) {
     <ButtonContainer {...props}>
       {
         props.loading &&
-        <MoonLoader size={18} />
+        <MoonLoader size={18} color={props.primary ? 'white' : 'black'}/>
       }
       <CustomButton {...props} />
     </ButtonContainer>

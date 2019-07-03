@@ -1,10 +1,11 @@
-import { combineReducers, createStore } from 'redux'
+import { applyMiddleware, combineReducers, createStore } from 'redux'
+import reduxThunk from 'redux-thunk'
 
 import { IAction, IPropspect, IReducer } from './interfaces'
 
 function clientReducer(state = {}, action: IAction): IPropspect | {} {
   switch (action.type) {
-    case '@@ORDER/SET_ORDER': {
+    case '@@CLIENTS/ADD_CLIENT': {
       return state
     }
     default: return state
@@ -28,6 +29,8 @@ const store = createStore(
     propspects: propspectReducer,
     clients: clientReducer,
   }),
+  {},
+  applyMiddleware(reduxThunk),
 )
 
 export default store

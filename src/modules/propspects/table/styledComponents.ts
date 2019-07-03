@@ -49,3 +49,10 @@ export const DetailItem = styled.div`
     margin-left: 5px;
   }
 `
+
+export const DetailButton = styled.div`
+  display: flex;
+  width: 100%;
+  margin: 20px 0;
+  justify-content: flex-end;
+`
