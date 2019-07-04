@@ -90,7 +90,7 @@ export const ButtonContainer = styled.div`
   border: 2px solid black;
   justify-content: center;
   color: ${({ primary }: IButton) => primary ? 'white' : 'black'};
-  width: ${({ loading }: IButton) => loading ? '120px' : '100px'};
+  width: ${({ loading }: IButton) => loading ? '125px' : '105px'};
   background: ${({ primary }: IButton) => primary ? 'black' : 'white'};
 `
 
@@ -112,7 +112,7 @@ export const ModalContent = styled.div`
   z-index: 100;
   left: 0;
   top: 0;
-  height: 300px;
+  height: auto;
   padding: 20px;
   margin: 200px;
   border: 1px solid #888;

@@ -56,3 +56,22 @@ export const DetailButton = styled.div`
   margin: 20px 0;
   justify-content: flex-end;
 `
+
+export const Msg = styled.p`
+  text-align: center;
+  margin: 20px;
+  color: green;
+`
+
+export const ValidationContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid grey;
+  justify-content: flex-start;
+  text-align: left;
+
+  li {
+    color: gray;
+  }
+`

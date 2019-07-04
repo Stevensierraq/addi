@@ -6,3 +6,10 @@ export const addPropspect = (propspect: IPropspect) => ({
     propspect,
   },
 })
+
+export const addClient = (client: IPropspect) => ({
+  type: '@@CLIENTS/ADD_CLIENT',
+  payload: {
+    client,
+  },
+})

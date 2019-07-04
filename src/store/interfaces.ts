@@ -13,6 +13,7 @@ export interface IAction {
   type: string
   payload: {
     propspect: {},
+    client: {},
     key: string,
     value: string | number,
     id: string,

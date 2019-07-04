@@ -30,7 +30,7 @@ const PropspectForm = withFormik<any, any>({
       setSubmitting(false)
       resetForm()
 
-    }, 2000)
+    }, 1500)
   },
 
 })(UiForm)
