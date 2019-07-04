@@ -10,7 +10,6 @@ import {
   FormContainer,
   FormTitle,
 } from './styledComponents'
-import { func } from 'prop-types';
 
 export default function UiForm({ handleSubmit, isSubmitting }: any) {
   return (

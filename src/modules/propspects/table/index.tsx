@@ -1,36 +1,46 @@
-import React, { memo, useCallback, useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { memo, useState } from 'react'
+import { FaEye } from 'react-icons/fa'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Modal from '../../../components/ui/modal'
 import { IPropspect, IReducer } from '../../../store/interfaces'
-import Detail from './detail'
-import { TableContainer, Th, Tr } from './styledComponents'
+import { defaultPropspect } from './defaults'
+import Detail from './ui/detail'
+import ValidateInfo from './ui/validateInfo'
 
-import { isEmpty } from 'ramda'
+import {
+  DetailButton,
+  Msg,
+  TableContainer,
+  Th,
+  Tr,
+} from './styledComponents'
+
+import { Button } from '../../../components/ui/button'
 
 import { GET, POST } from '../../../utils/request'
 
-import {
-  FaEye,
-} from 'react-icons/fa'
-
-const defaultPropspect = {
-  name: '',
-  phone: '',
-  email: '',
-  dniType: '',
-  address: '',
-  dniNumber: '',
-  dniExpiry: '',
-}
+import { addClient } from '../../../store/actions'
 
 function PropspectsTable() {
+  const [score, setScore] = useState<number>(0)
+  const [msg, setMsg] = useState<string>('')
   const [visible, setVisible] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
+  const [validation, setValidation] = useState<boolean>(false)
   const [detail, setDetail] = useState<IPropspect>(defaultPropspect)
-  const propspects = useSelector((state: IReducer) => state.propspects)
+  const [propspectExist, setPropspectExist] = useState<boolean>(false)
+  const [antecedentesErrors, setAntecedentesErrors] = useState<string[]>([])
 
-  const toggleModal = () => setVisible(!visible)
+  const propspects = useSelector((state: IReducer) => state.propspects)
+  const dispatch = useDispatch()
+
+  const toggleModal = () => {
+    setVisible(!visible)
+    setValidation(false)
+    setScore(0)
+    setMsg('')
+  }
 
   const viewDetail = (propspect: IPropspect) => {
     setVisible(true)
@@ -40,25 +50,45 @@ function PropspectsTable() {
   const validateScore = async (validations: any) => {
     const [antecendentes, datacredito] = validations
 
-    const propspectExist: boolean = datacredito.exist
-    let antecedentesErrors: string[] = []
+    setPropspectExist(datacredito.exist)
 
-    if (antecendentes.causes) { antecedentesErrors = antecendentes.causes }
+    if (antecendentes.causes) { setAntecedentesErrors(antecendentes.causes) }
 
-    if (isEmpty(antecedentesErrors) && propspectExist) {
+    if (!antecendentes.reportd && datacredito.exist) {
       const getScore = await GET('http://localhost:3600/addi-api')
+      setScore(getScore.score)
     }
 
+    setValidation(true)
     setLoading(false)
   }
 
-  const validatePropspect = useCallback(async (propspect: IPropspect) => {
+  const validatePropspect = () => {
     setLoading(true)
+
     Promise.all([
-      POST('http://localhost:3600/antecedentes', propspect),
-      POST('http://localhost:3600/datacredito', propspect),
+      POST('http://localhost:3600/antecedentes', detail),
+      POST('http://localhost:3600/datacredito', detail),
     ]).then(validateScore)
-  }, [])
+  }
+
+  const handleClick = (e: any) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    if (score > 60) {
+      setLoading(true)
+      dispatch(addClient(detail))
+      setMsg(`${detail.name} ahora es un cliente!!!`)
+
+      setTimeout(() => {
+        setLoading(true)
+        toggleModal()
+      }, 4000)
+    } else {
+      validatePropspect()
+    }
+  }
 
   return (
     <TableContainer>
@@ -96,11 +126,35 @@ function PropspectsTable() {
         visible={visible}
         closeModal={() => toggleModal()}
       >
-        <Detail
-          propspect={detail}
-          loading={loading}
-          validatePropspect={validatePropspect}
-        />
+        <div>
+          <Detail
+            propspect={detail}
+            loading={loading}
+          />
+          {validation &&
+            <ValidateInfo
+              score={score}
+              exist={propspectExist}
+              antecedentes={antecedentesErrors}
+            />
+          }
+          <Msg>
+            {msg}
+          </Msg>
+          <DetailButton>
+            <Button
+              primary
+              loading={loading}
+              disabled={loading}
+              onClick={handleClick}
+            >
+              {score > 60
+                ? 'APROBAR'
+                : 'VALIDAR'
+              }
+            </Button>
+          </DetailButton>
+        </div>
       </Modal>
     </TableContainer>
   )

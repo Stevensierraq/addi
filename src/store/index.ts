@@ -3,10 +3,13 @@ import reduxThunk from 'redux-thunk'
 
 import { IAction, IPropspect, IReducer } from './interfaces'
 
-function clientReducer(state = {}, action: IAction): IPropspect | {} {
+function clientReducer(state = [], action: IAction): IPropspect | {} {
   switch (action.type) {
     case '@@CLIENTS/ADD_CLIENT': {
-      return state
+      return [
+        ...state,
+        action.payload.client,
+      ]
     }
     default: return state
   }

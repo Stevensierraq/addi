@@ -1,26 +1,27 @@
 import React from 'react'
-import styled from 'styled-components'
 
 import logo from '../../assets/images/addi_logo.svg'
 
-const MainHeader = styled.header`
-  height: 60px;
-  display: flex;
-  padding: 0 15px;
-  align-items: center;
-  background-color: black;
-  justify-content: space-between;
-`
+import { Img, MainHeader, Tab, TabContainer } from './styledComponents'
 
-const Img = styled.img`
-  height: 40px;
-`
-
-export default function Header() {
+export default function Header(props: any) {
   return (
     <MainHeader>
-      <Img src={logo} alt='logo-addi'/>
-      <span>text</span>
+      <Img src={logo} alt='logo-addi' />
+      <TabContainer>
+        <Tab
+          selected={props.selected === 'propspects'}
+          onClick={() => props.setTab('propspects')}
+        >
+          PROSPECTOS
+        </Tab>
+        <Tab
+          selected={props.selected === 'clients'}
+          onClick={() => props.setTab('clients')}
+        >
+          CLIENTES
+        </Tab>
+      </TabContainer>
     </MainHeader>
   )
 }
