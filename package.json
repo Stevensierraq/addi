@@ -7,17 +7,35 @@
     "@types/node": "12.0.10",
     "@types/react": "16.8.22",
     "@types/react-dom": "16.8.4",
+    "@types/react-icons": "^3.0.0",
+    "@types/react-redux": "^7.1.1",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "formik": "^1.5.7",
+    "npm-run-all": "^4.1.5",
+    "ramda": "^0.26.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-icons": "^3.7.0",
+    "react-number-format": "^4.0.8",
+    "react-redux": "^7.1.0",
     "react-scripts": "3.0.1",
+    "react-spinners": "^0.5.4",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^4.3.2",
     "typescript": "3.5.2",
-    "styled-components": "^4.3.2"
+    "yup": "^0.27.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "tslint --project '.'",
+    "start-all": "npm-run-all -p start-mockapi start",
+    "start-mockapi": "json-server mockServer/index.js --port 3600 --routes mockServer/routes.json -m mockServer/middlewares/datacredito.js mockServer/middlewares/antecedentes.js mockServer/middlewares/addi-api.js",
+    "local-db": "json-server mockServer/db.json  --watch --port 3600 --no-cors"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -35,6 +53,8 @@
     ]
   },
   "devDependencies": {
+    "@types/ramda": "^0.26.12",
+    "@types/yup": "^0.26.18",
     "eslint-plugin-react-hooks": "^1.6.0",
     "tslint": "^5.17.0",
     "tslint-react": "^4.0.0"
