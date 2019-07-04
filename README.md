@@ -22,6 +22,12 @@ $ yarn start-all
     - http://localhost:3600/antecedentes => get people reported
     - http://localhost:3600/datacredito => get people exist in republica DB
     - http://localhost:3600/addi-api => get score random
+    
+### TEST
+
+```sh
+$ yarn test
+```
 
 ### Dependecies
     * Typescript
