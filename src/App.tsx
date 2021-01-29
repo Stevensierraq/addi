@@ -22,7 +22,7 @@ function App() {
         }
       </Provider>
     </div>
-  )
-}
+  );
+};
 
 export default App
