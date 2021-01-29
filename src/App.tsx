@@ -13,6 +13,7 @@ function App() {
 
   return (
     <div className='App'>
+      <>
       <Provider store={store}>
         <Header selected={tab} setTab={setTab} />
         {
@@ -21,6 +22,7 @@ function App() {
             : <ClientsLayout />
         }
       </Provider>
+      </>
     </div>
   );
 };
