@@ -1,5 +1,5 @@
 # addi
-React app for Addi using Hooks
+React app for Addi using Hooks!
 
 
 ### Installation
